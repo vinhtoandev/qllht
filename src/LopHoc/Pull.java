@@ -1,7 +1,6 @@
 package LopHoc;
 
 public class Pull {
-	public static void main(String[] args) {
-		System.out.println("Pull");
-	}
+	int i = 7;
+	String name = "Toan";
 }
