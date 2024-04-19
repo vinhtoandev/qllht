@@ -3,17 +3,38 @@ package Model;
 import java.sql.Date;
 
 public class Giaovien {
-	private int maGV;
+	private String maGV;
 	private String name;
-	private Date namSinh;
+	private String namSinh;
 	private boolean gioiTinh;
 	private String chuyenMon;
 	private String trinhDo;
 	private int SDT;
-	public int getMaGV() {
+	
+	public Giaovien() {
+		super();
+	}
+	public Giaovien(String maGV, String name, String namSinh, boolean gioiTinh, String chuyenMon, String trinhDo,
+			int sDT) {
+		super();
+		this.maGV = maGV;
+		this.name = name;
+		this.namSinh = namSinh;
+		this.gioiTinh = gioiTinh;
+		this.chuyenMon = chuyenMon;
+		this.trinhDo = trinhDo;
+		this.SDT = sDT;
+	}
+	
+	@Override
+	public String toString() {
+		return "Giaovien [maGV=" + maGV + ", name=" + name + ", namSinh=" + namSinh + ", gioiTinh=" + gioiTinh
+				+ ", chuyenMon=" + chuyenMon + ", trinhDo=" + trinhDo + ", SDT=" + SDT + "]";
+	}
+	public String getMaGV() {
 		return maGV;
 	}
-	public void setMaGV(int maGV) {
+	public void setMaGV(String maGV) {
 		this.maGV = maGV;
 	}
 	public String getName() {
@@ -22,13 +43,13 @@ public class Giaovien {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getNamSinh() {
+	public String getNamSinh() {
 		return namSinh;
 	}
-	public void setNamSinh(Date namSinh) {
+	public void setNamSinh(String namSinh) {
 		this.namSinh = namSinh;
 	}
-	public boolean isGioiTinh() {
+	public boolean getGioiTinh() {
 		return gioiTinh;
 	}
 	public void setGioiTinh(boolean gioiTinh) {
@@ -52,5 +73,6 @@ public class Giaovien {
 	public void setSDT(int sDT) {
 		SDT = sDT;
 	}
+	
 	
 }

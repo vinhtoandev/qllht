@@ -1,7 +1,12 @@
 package DAO;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+
+import com.mysql.cj.xdevapi.PreparableStatement;
+import com.mysql.cj.xdevapi.Statement;
 
 import Database.JDBCUtil;
 import Model.Giaovien;
@@ -13,38 +18,138 @@ public class GiaovienDAO implements DAOInterface<Giaovien>{
 	}
 	
 	public int insert(Giaovien t) {
-		
-		
-		
-		
-		return 0;
+		int ketqua = 0;
+		try {
+			Connection cnn = JDBCUtil.getConnection();
+			
+			java.sql.Statement st = cnn.createStatement();
+			String sql = "INSERT INTO giaovien (maGV, name, namSinh, gioiTinh, chuyenMon, trinhDO, SDT)"
+					+ " values('" + t.getMaGV() +"' ,'" + t.getName() +"' ,'" + t.getNamSinh() + "' ," + t.getGioiTinh() + ", '" +
+					 t.getChuyenMon() + "' ,'" + t.getTrinhDo() + "' ," + t.getSDT() + ")";
+			
+			ketqua = st.executeUpdate(sql);
+			
+			
+			JDBCUtil.closeConnection(cnn);
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		return ketqua;
 	}
 
 	@Override
 	public int update(Giaovien t) {
-		// TODO Auto-generated method stub
-		return 0;
+		int ketqua = 0;
+		try {
+			Connection cnn = JDBCUtil.getConnection();
+			
+			java.sql.Statement st = cnn.createStatement();
+			
+			String sql = "UPDATE giaovien set "
+					+ "maGV = '" + t.getMaGV() + "' ,"
+					+ "name = '" + t.getName() + "' ," 
+					+ "namSinh = '" + t.getNamSinh() + "' ,"
+					+ "gioiTinh = " + t.getGioiTinh() + " ,"
+					+ "chuyenMon = '" + t.getChuyenMon() + "' ,"
+					+ "trinhDo = '" + t.getTrinhDo() + "' ,"
+					+ "SDT = " + t.getSDT() + " where maGV = '" + t.getMaGV() + "'";
+			
+			ketqua = st.executeUpdate(sql);
+			
+			JDBCUtil.closeConnection(cnn);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return ketqua;
 	}
 
 	@Override
 	public int delete(Giaovien t) {
-		// TODO Auto-generated method stub
-		return 0;
+		int ketqua = 0;
+		try {
+			Connection cnn = JDBCUtil.getConnection();
+			
+			java.sql.Statement st = cnn.createStatement();
+			
+			String sql = "DELETE FROM giaovien where maGV = '" + t.getMaGV() + "'";
+			
+			JDBCUtil.closeConnection(cnn);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return ketqua;
 	}
 
 	@Override
 	public ArrayList<Giaovien> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Giaovien> list = new ArrayList<Giaovien>();
+		try {
+			Connection cnn = JDBCUtil.getConnection();
+			
+			java.sql.Statement st = cnn.createStatement();
+			
+			String sql = "SELECT * FROM giaovien";
+			
+			java.sql.ResultSet rs = st.executeQuery(sql);
+			
+			while(rs.next()) {
+				 String maGV = rs.getString("maGV");
+				 String name = rs.getString("name");
+				 String nameSinh = rs.getString("namSinh");
+				 Boolean gioiTinh = rs.getBoolean("gioiTinh");
+				 String chuyenMon = rs.getString("chuyenMon");
+				 String trinhDo = rs.getString("trinhDo");
+				 int SDT = rs.getInt("SDT");
+				 
+				 Giaovien gv = new Giaovien(maGV, nameSinh, name, gioiTinh, chuyenMon, trinhDo, SDT);
+				 list.add(gv);
+			}
+			
+			JDBCUtil.closeConnection(cnn);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return list;
 	}
 
-	@Override
-	public Giaovien selectById(Giaovien t) {
-		// TODO Auto-generated method stub
-		return null;
+
+	public Giaovien selectById(String id) {
+		Giaovien gv = null;
+		try {
+			Connection cnn = JDBCUtil.getConnection();
+			
+			java.sql.Statement st = cnn.createStatement();
+			
+			String sql = "SELECT * FROM giaovien where maGV = '" + id + "'";
+			
+			java.sql.ResultSet rs = st.executeQuery(sql);
+			
+			while(rs.next()) {
+				 String maGV = rs.getString("maGV");
+				 String name = rs.getString("name");
+				 String nameSinh = rs.getString("namSinh");
+				 Boolean gioiTinh = rs.getBoolean("gioiTinh");
+				 String chuyenMon = rs.getString("chuyenMon");
+				 String trinhDo = rs.getString("trinhDo");
+				 int SDT = rs.getInt("SDT");
+				 
+				 gv = new Giaovien(maGV, nameSinh, name, gioiTinh, chuyenMon, trinhDo, SDT);
+			}
+			
+			JDBCUtil.closeConnection(cnn);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return gv;
 	}
 
-	@Override
+
 	public ArrayList<Giaovien> selectByCondition() {
 		// TODO Auto-generated method stub
 		return null;
