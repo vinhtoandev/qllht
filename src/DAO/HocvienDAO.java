@@ -47,12 +47,12 @@ public class HocvienDAO implements DAOInterface<Hocvien>{
 					" name = '" + t.getName() + "'," +
 					" namSinh = '" + t.getNamSinh() + "'," +
 					" gioiTinh = " + t.isGioiTinh() + "," +
-					" SDT = '" + t.getSdt() + "'" +
+					" SDT = '" + t.getSdt() + "'," +
 					" tinhTrang = '" + t.getTinhTrang() + "' " +
 					"WHERE maHV = '" + t.getMaHV() + "'";  				
-//			int kq = st.executeUpdate(sql);
+			int kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi: " + sql);
-//			System.out.println("Co " + kq + " dong da thay doi");
+			System.out.println("Co " + kq + " dong da thay doi");
 			JDBCUtil.closeConnection(con);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -71,9 +71,9 @@ public class HocvienDAO implements DAOInterface<Hocvien>{
 			String sql = "DELETE FROM hocvien " + 
 					"WHERE ('" + t.getMaHV() + "', '" + t.getName() + "', '" + t.getNamSinh() + 
 					"', " + t.isGioiTinh() + ", '" + t.getSdt() + "', '" + t.getTinhTrang() + "');"; 				
-			int kq = st.executeUpdate(sql);
+//			int kq = st.executeUpdate(sql);
 			System.out.println("Ban da thuc thi: " + sql);
-			System.out.println("Co " + kq + " dong da thay doi");
+//			System.out.println("Co " + kq + " dong da thay doi");
 			JDBCUtil.closeConnection(con);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
