@@ -90,7 +90,7 @@ public class HocvienDAO implements DAOInterface<Hocvien>{
 	}
 
 	@Override
-	public Hocvien selectById(String t) {
+	public Hocvien selectById(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -100,5 +100,8 @@ public class HocvienDAO implements DAOInterface<Hocvien>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
+
 	
 }

@@ -101,13 +101,13 @@ public class GiaovienDAO implements DAOInterface<Giaovien>{
 			while(rs.next()) {
 				 String maGV = rs.getString("maGV");
 				 String name = rs.getString("name");
-				 String nameSinh = rs.getString("namSinh");
+				 String namSinh = rs.getString("namSinh");
 				 Boolean gioiTinh = rs.getBoolean("gioiTinh");
 				 String chuyenMon = rs.getString("chuyenMon");
 				 String trinhDo = rs.getString("trinhDo");
 				 int SDT = rs.getInt("SDT");
 				 
-				 Giaovien gv = new Giaovien(maGV, nameSinh, name, gioiTinh, chuyenMon, trinhDo, SDT);
+				 Giaovien gv = new Giaovien(maGV, name, namSinh, gioiTinh, chuyenMon, trinhDo, SDT);
 				 list.add(gv);
 			}
 			
