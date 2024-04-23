@@ -23,11 +23,19 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import Controller.GiaoVienConTroler;
+import Controller.HocVienConTroller;
+import Controller.HocVienConTroller;
+import Controller.LopHocConTroller;
+import DAO.GiaovienDAO;
+import Model.Giaovien;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+
 import javax.swing.JTextField;
 import java.awt.SystemColor;
 import javax.swing.JRadioButton;
@@ -42,8 +50,8 @@ public class AdminView extends JFrame {
 	public JTabbedPane tabbedPane;
 	public JTable tableGV,tableHV;
 	public JLabel lblNewLabel,lblNewLabel_1;
-	public JButton btnGiaoVien,btnHocVien, btnLopHoc, btnBienLai, btnThemGV, btnSuaGV, btnXoaGV, btnHienThiGV, btnTimKiemGV;
-	public JButton btnThemHV, btnSuaHV, btnXoaHV;
+	public JButton btnGiaoVien,btnHocVien, btnLopHoc, btnBienLai, btnThemGV, btnSuaGV, btnXoaGV, btnHienThiGV, btnTimKiemGV, btnResetGV;
+	public JButton btnThemHV, btnSuaHV, btnXoaHV, btnHienThiHV, btnTimKiemHV ;
 	public TextField txtNameGV; 
 	public JTextField txtNhapMaGV;
 	public JTextField txtNhapTenGV;
@@ -55,8 +63,22 @@ public class AdminView extends JFrame {
 	public JTextField txtNhapTenHV;
 	public JTextField txtNhapNamSinhHV;
 	public JTextField txtNhapSDTHV;
-	public JComboBox cbbSapXepHV, cbbSapXepGV;
+	public JComboBox cbbSapXepHV;
 	
+	public JRadioButton rdbtnFemaleGV, rdbtnMaleGV, rdbtMaleHV, rdbtFemaleHV;
+	
+	public JButton btnResetHV;
+	public JTextField txtNhapMaLH;
+	public JTextField txtNhapTenLH;
+	public JTextField txtNhapSiSoLH;
+	public JTextField txtNhapThoiGianHocLH;
+	public JTextField txtNhapNgayBatDauLH;
+	public JTextField txtNhapNgayKetThucLH;
+	public JTable tableLH;
+	public Choice choiceNhapMaGV, choiceNhapMaMH, choiceSapXepGV;
+	
+	public JButton btnThemLH, btnSuaLH, btnXoaLH, btnHienThiLH, btnTimKiemLH;
+	public JComboBox nhapTinhTrang;
 	
 	
 //	public static void main(String[] args) {
@@ -94,7 +116,7 @@ public AdminView() {
 	lblNewLabel = new JLabel("PTAN  ");
 	lblNewLabel.setForeground(Color.WHITE);
 	lblNewLabel.setFont(new Font("Yu Mincho Demibold", Font.BOLD, 33));
-	lblNewLabel.setBounds(10, 35, 146, 49);
+	lblNewLabel.setBounds(10, 32, 146, 49);
 	Menu.add(lblNewLabel);
 	
 	lblNewLabel_1 = new JLabel("Trung tâm dạy thêm");
@@ -258,13 +280,15 @@ public AdminView() {
 	TieuDeGV.add(btnTimKiemGV);
 	TieuDeGV.add(lblNewLabel_2);
 	
-	cbbSapXepGV = new JComboBox();
-	cbbSapXepGV.setBounds(305, 121, 117, 32);
-	TieuDeGV.add(cbbSapXepGV);
+	choiceSapXepGV = new Choice();
+	choiceSapXepGV.setBounds(306, 128, 111, 18);
+	choiceSapXepGV.add("MaGV");
+	choiceSapXepGV.add("Ten");
+	TieuDeGV.add(choiceSapXepGV);
 
 	
 	JScrollPane scrollPane = new JScrollPane();
-	scrollPane.setBounds(82, 275, 815, 350);
+	scrollPane.setBounds(68, 268, 829, 357);
 	PanelGiaoVien.add(scrollPane);
 	
 	tableGV = new JTable();
@@ -357,19 +381,19 @@ public AdminView() {
 	
 	
 	
-	JButton btnResetGV = new JButton("Reset");
+	btnResetGV = new JButton("Reset");
 	btnResetGV.setForeground(Color.WHITE);
 	btnResetGV.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 	btnResetGV.setBackground(new Color(36, 0, 72));
 	btnResetGV.setBounds(109, 630, 82, 40);
 	panel.add(btnResetGV); 
 	
-	JRadioButton rdbtnMaleGV = new JRadioButton("Male");
+	rdbtnMaleGV = new JRadioButton("Male");
 	rdbtnMaleGV.setSelected(true);
 	rdbtnMaleGV.setBounds(109, 374, 70, 30);
 	panel.add(rdbtnMaleGV);
 	
-	JRadioButton rdbtnFemaleGV = new JRadioButton("Female");
+	rdbtnFemaleGV = new JRadioButton("Female");
 	rdbtnFemaleGV.setBounds(197, 374, 70, 30);
 	panel.add(rdbtnFemaleGV);
 	
@@ -414,12 +438,12 @@ public AdminView() {
 	lblNewLabel_5.setBounds(317, 111, 71, 20);
 	TieuDeHV.add(lblNewLabel_5);
 	
-	JButton btnNewButton_2_3 = new JButton("Hiển thị");
-	btnNewButton_2_3.setForeground(Color.WHITE);
-	btnNewButton_2_3.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-	btnNewButton_2_3.setBackground(new Color(36, 0, 72));
-	btnNewButton_2_3.setBounds(429, 140, 92, 32);
-	TieuDeHV.add(btnNewButton_2_3);
+	btnHienThiHV = new JButton("Hiển thị");
+	btnHienThiHV.setForeground(Color.WHITE);
+	btnHienThiHV.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+	btnHienThiHV.setBackground(new Color(36, 0, 72));
+	btnHienThiHV.setBounds(429, 140, 92, 32);
+	TieuDeHV.add(btnHienThiHV);
 	
 	TextField textField = new TextField();
 	textField.setBounds(551, 140, 179, 32);
@@ -431,12 +455,12 @@ public AdminView() {
 	lblNewLabel_5_2.setBounds(565, 111, 71, 20);
 	TieuDeHV.add(lblNewLabel_5_2);
 	
-	JButton btnNewButton_2_4 = new JButton("Tìm kiếm");
-	btnNewButton_2_4.setForeground(Color.WHITE);
-	btnNewButton_2_4.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-	btnNewButton_2_4.setBackground(new Color(36, 0, 72));
-	btnNewButton_2_4.setBounds(779, 140, 92, 32);
-	TieuDeHV.add(btnNewButton_2_4);
+	btnTimKiemHV = new JButton("Tìm kiếm");
+	btnTimKiemHV.setForeground(Color.WHITE);
+	btnTimKiemHV.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+	btnTimKiemHV.setBackground(new Color(36, 0, 72));
+	btnTimKiemHV.setBounds(779, 140, 92, 32);
+	TieuDeHV.add(btnTimKiemHV);
 	
 	JLabel lblNewLabel_3 = new JLabel("Học viên");
 	lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 24));
@@ -511,22 +535,24 @@ public AdminView() {
 	panel_2.add(txtNhapSDTHV);
 	
 	
-	JButton btnResetHV = new JButton("Reset");
+	btnResetHV = new JButton("Reset");
 	btnResetHV.setForeground(Color.WHITE);
 	btnResetHV.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 	btnResetHV.setBackground(new Color(36, 0, 72));
 	btnResetHV.setBounds(111, 630, 82, 40);
 	panel_2.add(btnResetHV);
 	
-	JComboBox comboBox = new JComboBox();
-	comboBox.setBounds(112, 510, 148, 30);
-	panel_2.add(comboBox);
+	nhapTinhTrang = new JComboBox();
+	nhapTinhTrang.setBounds(112, 510, 148, 30);
+	nhapTinhTrang.addItem("active");
+	nhapTinhTrang.addItem("inactive");
+	panel_2.add(nhapTinhTrang);
 	
-	JRadioButton rdbtMaleHV = new JRadioButton("Male");
+	rdbtMaleHV = new JRadioButton("Male");
 	rdbtMaleHV.setBounds(109, 371, 53, 25);
 	panel_2.add(rdbtMaleHV);
 	
-	JRadioButton rdbtFemaleHV = new JRadioButton("Female");
+    rdbtFemaleHV = new JRadioButton("Female");
 	rdbtFemaleHV.setBounds(178, 371, 72, 25);
 	panel_2.add(rdbtFemaleHV);
 	
@@ -554,30 +580,30 @@ public AdminView() {
 	
 	JPanel TieuDeLH = new JPanel();
 	TieuDeLH.setBackground(new Color(135, 123, 191));
-	TieuDeLH.setBounds(0, 78, 1069, 194);
+	TieuDeLH.setBounds(0, 78, 998, 194);
 	PanelLopHoc.add(TieuDeLH);
 	TieuDeLH.setLayout(null);
 	
-	JButton btnNewButton_2_1_2 = new JButton("Thêm mới");
-	btnNewButton_2_1_2.setBounds(10, 140, 117, 32);
-	btnNewButton_2_1_2.setForeground(Color.WHITE);
-	btnNewButton_2_1_2.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-	btnNewButton_2_1_2.setBackground(new Color(36, 0, 72));
-	TieuDeLH.add(btnNewButton_2_1_2);
+	btnThemLH = new JButton("Thêm mới");
+	btnThemLH.setBounds(10, 140, 117, 32);
+	btnThemLH.setForeground(Color.WHITE);
+	btnThemLH.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+	btnThemLH.setBackground(new Color(36, 0, 72));
+	TieuDeLH.add(btnThemLH);
 	
-	JButton btnNewButton_2_6 = new JButton("Sửa");
-	btnNewButton_2_6.setBounds(137, 140, 71, 32);
-	btnNewButton_2_6.setForeground(Color.WHITE);
-	btnNewButton_2_6.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-	btnNewButton_2_6.setBackground(new Color(36, 0, 72));
-	TieuDeLH.add(btnNewButton_2_6);
+	btnSuaLH = new JButton("Sửa");
+	btnSuaLH.setBounds(137, 140, 71, 32);
+	btnSuaLH.setForeground(Color.WHITE);
+	btnSuaLH.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+	btnSuaLH.setBackground(new Color(36, 0, 72));
+	TieuDeLH.add(btnSuaLH);
 	
-	JButton btnNewButton_2_2_2 = new JButton("Xóa");
-	btnNewButton_2_2_2.setBounds(218, 140, 71, 32);
-	btnNewButton_2_2_2.setForeground(Color.WHITE);
-	btnNewButton_2_2_2.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-	btnNewButton_2_2_2.setBackground(new Color(36, 0, 72));
-	TieuDeLH.add(btnNewButton_2_2_2);
+	btnXoaLH = new JButton("Xóa");
+	btnXoaLH.setBounds(218, 140, 71, 32);
+	btnXoaLH.setForeground(Color.WHITE);
+	btnXoaLH.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+	btnXoaLH.setBackground(new Color(36, 0, 72));
+	TieuDeLH.add(btnXoaLH);
 	
 	Choice choice_3 = new Choice();
 	choice_3.setBounds(306, 154, 92, 18);
@@ -589,44 +615,145 @@ public AdminView() {
 	lblNewLabel_5_4.setFont(new Font("Segoe UI", Font.BOLD, 12));
 	TieuDeLH.add(lblNewLabel_5_4);
 	
-	Choice choice_1_2 = new Choice();
-	choice_1_2.setBounds(408, 154, 159, 18);
-	TieuDeLH.add(choice_1_2);
-	
-	JLabel lblNewLabel_5_1_2 = new JLabel("Hiển thị theo danh sách lớp:");
-	lblNewLabel_5_1_2.setBounds(409, 128, 196, 20);
-	lblNewLabel_5_1_2.setForeground(new Color(36, 0, 72));
-	lblNewLabel_5_1_2.setFont(new Font("Segoe UI", Font.BOLD, 12));
-	TieuDeLH.add(lblNewLabel_5_1_2);
-	
-	JButton btnNewButton_2_3_2 = new JButton("Hiển thị");
-	btnNewButton_2_3_2.setBounds(582, 140, 92, 32);
-	btnNewButton_2_3_2.setForeground(Color.WHITE);
-	btnNewButton_2_3_2.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-	btnNewButton_2_3_2.setBackground(new Color(36, 0, 72));
-	TieuDeLH.add(btnNewButton_2_3_2);
+	btnHienThiLH = new JButton("Hiển thị");
+	btnHienThiLH.setBounds(437, 140, 92, 32);
+	btnHienThiLH.setForeground(Color.WHITE);
+	btnHienThiLH.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+	btnHienThiLH.setBackground(new Color(36, 0, 72));
+	TieuDeLH.add(btnHienThiLH);
 	
 	TextField textField_2 = new TextField();
-	textField_2.setBounds(755, 151, 179, 21);
+	textField_2.setBounds(564, 151, 179, 21);
 	TieuDeLH.add(textField_2);
 	
-	JLabel lblNewLabel_5_2_2 = new JLabel("Họ tên:");
-	lblNewLabel_5_2_2.setBounds(755, 128, 71, 20);
+	JLabel lblNewLabel_5_2_2 = new JLabel("Tên môn học");
+	lblNewLabel_5_2_2.setBounds(564, 128, 98, 20);
 	lblNewLabel_5_2_2.setForeground(new Color(36, 0, 72));
 	lblNewLabel_5_2_2.setFont(new Font("Segoe UI", Font.BOLD, 12));
 	TieuDeLH.add(lblNewLabel_5_2_2);
 	
-	JButton btnNewButton_2_4_2 = new JButton("Tìm kiếm");
-	btnNewButton_2_4_2.setBounds(949, 140, 92, 32);
-	btnNewButton_2_4_2.setForeground(Color.WHITE);
-	btnNewButton_2_4_2.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-	btnNewButton_2_4_2.setBackground(new Color(36, 0, 72));
-	TieuDeLH.add(btnNewButton_2_4_2);
+	btnTimKiemLH = new JButton("Tìm kiếm");
+	btnTimKiemLH.setBounds(793, 140, 92, 32);
+	btnTimKiemLH.setForeground(Color.WHITE);
+	btnTimKiemLH.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+	btnTimKiemLH.setBackground(new Color(36, 0, 72));
+	TieuDeLH.add(btnTimKiemLH);
 	
 	JLabel lblNewLabel_4 = new JLabel("Lớp học");
 	lblNewLabel_4.setBounds(393, 31, 150, 100);
 	lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 24));
 	TieuDeLH.add(lblNewLabel_4);
+	
+	JPanel panel_3 = new JPanel();
+	panel_3.setLayout(null);
+	panel_3.setBackground(SystemColor.activeCaption);
+	panel_3.setBounds(997, 0, 306, 693);
+	PanelLopHoc.add(panel_3);
+	
+	JLabel lblNewLabel_6_3 = new JLabel("MaLH");
+	lblNewLabel_6_3.setFont(new Font("Tahoma", Font.BOLD, 14));
+	lblNewLabel_6_3.setBounds(23, 145, 64, 30);
+	panel_3.add(lblNewLabel_6_3);
+	
+	JLabel lblNewLabel_6_1_5 = new JLabel("TenLop");
+	lblNewLabel_6_1_5.setFont(new Font("Tahoma", Font.BOLD, 14));
+	lblNewLabel_6_1_5.setBounds(23, 217, 64, 22);
+	panel_3.add(lblNewLabel_6_1_5);
+	
+	JLabel lblNewLabel_7_2 = new JLabel("THONG TIN LOP HOC");
+	lblNewLabel_7_2.setForeground(new Color(128, 255, 255));
+	lblNewLabel_7_2.setFont(new Font("Tahoma", Font.ITALIC, 28));
+	lblNewLabel_7_2.setBounds(10, 31, 306, 93);
+	panel_3.add(lblNewLabel_7_2);
+	
+	JLabel lblNewLabel_6_1_1_2 = new JLabel("SiSo");
+	lblNewLabel_6_1_1_2.setFont(new Font("Tahoma", Font.BOLD, 14));
+	lblNewLabel_6_1_1_2.setBounds(23, 270, 79, 22);
+	panel_3.add(lblNewLabel_6_1_1_2);
+	
+	JLabel lblNewLabel_6_1_2_2 = new JLabel("ThoiGianHoc");
+	lblNewLabel_6_1_2_2.setFont(new Font("Tahoma", Font.BOLD, 14));
+	lblNewLabel_6_1_2_2.setBounds(10, 323, 103, 22);
+	panel_3.add(lblNewLabel_6_1_2_2);
+	
+	JLabel lblNewLabel_6_1_3_3 = new JLabel("NgayBatDau");
+	lblNewLabel_6_1_3_3.setFont(new Font("Tahoma", Font.BOLD, 14));
+	lblNewLabel_6_1_3_3.setBounds(10, 382, 103, 22);
+	panel_3.add(lblNewLabel_6_1_3_3);
+	
+	JLabel lblNewLabel_6_1_3_1_2 = new JLabel("NgayKetThuc");
+	lblNewLabel_6_1_3_1_2.setFont(new Font("Tahoma", Font.BOLD, 14));
+	lblNewLabel_6_1_3_1_2.setBounds(10, 440, 103, 22);
+	panel_3.add(lblNewLabel_6_1_3_1_2);
+	
+	JLabel lblNewLabel_6_1_3_2_2 = new JLabel("MaMH");
+	lblNewLabel_6_1_3_2_2.setFont(new Font("Tahoma", Font.BOLD, 14));
+	lblNewLabel_6_1_3_2_2.setBounds(23, 495, 64, 22);
+	panel_3.add(lblNewLabel_6_1_3_2_2);
+	
+	txtNhapMaLH = new JTextField();
+	txtNhapMaLH.setColumns(10);
+	txtNhapMaLH.setBounds(109, 145, 151, 30);
+	panel_3.add(txtNhapMaLH);
+	
+	txtNhapTenLH = new JTextField();
+	txtNhapTenLH.setColumns(10);
+	txtNhapTenLH.setBounds(109, 216, 151, 30);
+	panel_3.add(txtNhapTenLH);
+	
+	txtNhapSiSoLH = new JTextField();
+	txtNhapSiSoLH.setColumns(10);
+	txtNhapSiSoLH.setBounds(109, 269, 151, 30);
+	panel_3.add(txtNhapSiSoLH);
+	
+	txtNhapThoiGianHocLH = new JTextField();
+	txtNhapThoiGianHocLH.setColumns(10);
+	txtNhapThoiGianHocLH.setBounds(109, 322, 151, 30);
+	panel_3.add(txtNhapThoiGianHocLH);
+	
+	txtNhapNgayBatDauLH = new JTextField();
+	txtNhapNgayBatDauLH.setColumns(10);
+	txtNhapNgayBatDauLH.setBounds(109, 381, 151, 30);
+	panel_3.add(txtNhapNgayBatDauLH);
+	
+	txtNhapNgayKetThucLH = new JTextField();
+	txtNhapNgayKetThucLH.setColumns(10);
+	txtNhapNgayKetThucLH.setBounds(109, 439, 151, 30);
+	panel_3.add(txtNhapNgayKetThucLH);
+	
+	JButton btnResetGV_1 = new JButton("Reset");
+	btnResetGV_1.setForeground(Color.WHITE);
+	btnResetGV_1.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+	btnResetGV_1.setBackground(new Color(36, 0, 72));
+	btnResetGV_1.setBounds(109, 630, 82, 40);
+	panel_3.add(btnResetGV_1);
+	
+	JLabel lblNewLabel_6_1_3_2_2_1 = new JLabel("MaGV");
+	lblNewLabel_6_1_3_2_2_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+	lblNewLabel_6_1_3_2_2_1.setBounds(23, 552, 64, 22);
+	panel_3.add(lblNewLabel_6_1_3_2_2_1);
+	
+	choiceNhapMaMH = new Choice();
+	choiceNhapMaMH.setBounds(109, 499, 151, 25);
+	panel_3.add(choiceNhapMaMH);
+	
+	choiceNhapMaGV = new Choice();
+	choiceNhapMaGV.setBounds(109, 556, 151, 30);
+	panel_3.add(choiceNhapMaGV);
+	
+	JScrollPane scrollPane_2 = new JScrollPane();
+	scrollPane_2.setBounds(73, 296, 848, 343);
+	PanelLopHoc.add(scrollPane_2);
+	
+	tableLH = new JTable();
+	scrollPane_2.setViewportView(tableLH);
+	tableLH.setModel(new DefaultTableModel(
+		new Object[][] {
+		},
+		new String[] {
+			"maLH", "tenLop", "siSo", "thoiGianHoc", "ngayBatDau", "ngayKetThuc", "maMH", "maGV"
+		}
+	));
 	
 	JPanel PanelBienLai = new JPanel();
 	PanelBienLai.setLayout(null);
@@ -710,13 +837,55 @@ public AdminView() {
 	
 	
 	//SU lI SU KIEN
+	//GIAOVIEN
+	ActionListener acgv = new GiaoVienConTroler(this);
+	btnHienThiGV.addActionListener(acgv);
+	btnThemGV.addActionListener(acgv);
+	btnSuaGV.addActionListener(acgv);
+	btnXoaGV.addActionListener(acgv);
+	btnTimKiemGV.addActionListener(acgv);
 	
-	ActionListener ac = new GiaoVienConTroler(this);
-	btnHienThiGV.addActionListener(ac);
 	
+	
+	MouseListener mlgv = new GiaoVienConTroler(this);
+	tableGV.addMouseListener(mlgv);
+
+	//LOPHOC
+	ActionListener aclh = new LopHocConTroller(this);
+	
+	btnHienThiLH.addActionListener(aclh);
+	btnSuaLH.addActionListener(aclh);
+	btnThemLH.addActionListener(aclh);
+	btnXoaLH.addActionListener(aclh);
+	btnTimKiemLH.addActionListener(aclh);
+	
+	MouseListener mllh = new LopHocConTroller(this);
+	tableLH.addMouseListener(mllh);
+	
+	
+	//HOC VIEN
+	ActionListener hv = new HocVienConTroller(this); 
+	btnHienThiHV.addActionListener(hv);
+	btnXoaHV.addActionListener(hv);
+	btnThemHV.addActionListener(hv);
+	btnSuaHV.addActionListener(hv);
+	btnResetHV.addActionListener(hv);
+	
+	MouseListener mlhv = new HocVienConTroller(this);
+	tableHV.addMouseListener(mlhv);
+	
+	setChoiceGV();
 	this.setVisible(true);
 	
 }
+	public void setChoiceGV() {
+		ArrayList<Giaovien> list = GiaovienDAO.getInstance().selectAll();
+		for(Giaovien gv : list) {
+			choiceNhapMaGV.add(gv.getMaGV());
+		}
+	}
 	
-	
+	public void setChoiceMH() {
+		
+	}
 }

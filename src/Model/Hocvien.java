@@ -47,7 +47,7 @@ public class Hocvien {
 		this.namSinh = namSinh;
 	}
 
-	public boolean isGioiTinh() {
+	public boolean getGioiTinh() {
 		return gioiTinh;
 	}
 

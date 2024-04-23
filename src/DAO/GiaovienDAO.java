@@ -76,6 +76,9 @@ public class GiaovienDAO implements DAOInterface<Giaovien>{
 			java.sql.Statement st = cnn.createStatement();
 			
 			String sql = "DELETE FROM giaovien where maGV = '" + t.getMaGV() + "'";
+			System.out.println(sql);
+			
+			ketqua = st.executeUpdate(sql);
 			
 			JDBCUtil.closeConnection(cnn);
 			
@@ -85,7 +88,6 @@ public class GiaovienDAO implements DAOInterface<Giaovien>{
 		
 		return ketqua;
 	}
-
 	@Override
 	public ArrayList<Giaovien> selectAll() {
 		ArrayList<Giaovien> list = new ArrayList<Giaovien>();
@@ -94,7 +96,7 @@ public class GiaovienDAO implements DAOInterface<Giaovien>{
 			
 			java.sql.Statement st = cnn.createStatement();
 			
-			String sql = "SELECT * FROM giaovien";
+			String sql = "SELECT * FROM giaovien order by maGV";
 			
 			java.sql.ResultSet rs = st.executeQuery(sql);
 			
@@ -148,11 +150,44 @@ public class GiaovienDAO implements DAOInterface<Giaovien>{
 		}
 		return gv;
 	}
+	
+	public ArrayList<Giaovien> timKiemGV(String dk){
+		ArrayList<Giaovien> list = new ArrayList<Giaovien>();
+		try {
+			Connection cnn = JDBCUtil.getConnection();
+			
+			java.sql.Statement st = cnn.createStatement();
+			
+			String sql = "SELECT * FROM giaovien where name like '%" + dk + "%'";
+			
+			java.sql.ResultSet rs = st.executeQuery(sql);
+			
+			while(rs.next()) {
+				 String maGV = rs.getString("maGV");
+				 String name = rs.getString("name");
+				 String namSinh = rs.getString("namSinh");
+				 Boolean gioiTinh = rs.getBoolean("gioiTinh");
+				 String chuyenMon = rs.getString("chuyenMon");
+				 String trinhDo = rs.getString("trinhDo");
+				 int SDT = rs.getInt("SDT");
+				 
+				 Giaovien gv = new Giaovien(maGV, name, namSinh, gioiTinh, chuyenMon, trinhDo, SDT);
+				 list.add(gv);
+			}
+			
+			JDBCUtil.closeConnection(cnn);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return list;
+	}
+	
 
-
-	public ArrayList<Giaovien> selectByCondition() {
+	public ArrayList<Giaovien> selectByCondition(String condition) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }
